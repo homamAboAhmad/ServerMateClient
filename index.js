@@ -10,7 +10,7 @@ async function getLmSensors() {
         exec('sensors', (error, stdout, stderr) => {
             console.log(error);
             console.log(stderr);
-            console.log("stdout": +stdout);
+            console.log("stdout:" + stdout);
             if (error || stderr) {
                 resolve(error + "\n " + stderr); // ما في حساسات أو خطأ بالتنفيذ
             } else {
@@ -36,7 +36,7 @@ async function getSystemInfo() {
 
         const lmSensorsOutput = await getLmSensors();
 
-        return {
+        const res =  {
             cpuTemperature: cpuTemp.main ?? null,
             cpuLoadPercent: +cpuLoad.currentLoad.toFixed(2),
             ramTotalGB: +(mem.total / 1e9).toFixed(2),
@@ -44,6 +44,9 @@ async function getSystemInfo() {
             disks: diskData,
             lmSensors: lmSensorsOutput // نص ناتج sensors أو null لو غير متوفر
         };
+
+        consol.log(JSON.stringify(res));
+        return res;
     } catch (err) {
         return { error: 'Failed to get system info', details: err.message };
     }
