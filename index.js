@@ -8,9 +8,9 @@ const PORT = 2337;
 async function getLmSensors() {
     return new Promise((resolve) => {
         exec('sensors', (error, stdout, stderr) => {
-            console.log(error);
-            console.log(stderr);
-            console.log("stdout:" + stdout);
+            //console.log(error);
+            //console.log(stderr);
+            //console.log("stdout:" + stdout);
             if (error || stderr) {
                 resolve(error + "\n " + stderr); // ما في حساسات أو خطأ بالتنفيذ
             } else {
@@ -45,13 +45,14 @@ async function getSystemInfo() {
             lmSensors: lmSensorsOutput // نص ناتج sensors أو null لو غير متوفر
         };
 
-        consol.log(JSON.stringify(res));
+        console.log(JSON.stringify(res));
+        console.log((res));
         return res;
     } catch (err) {
+        console.log(err);
         return { error: 'Failed to get system info', details: err.message };
     }
 }
-getSystemInfo();
 
 app.get('/status', async (req, res) => {
     const data = await getSystemInfo();
@@ -60,4 +61,6 @@ app.get('/status', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`✅ Agent running at http://localhost:${PORT}/status`);
+    getSystemInfo();
+
 });
