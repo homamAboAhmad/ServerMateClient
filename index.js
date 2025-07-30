@@ -51,6 +51,7 @@ async function getSystemInfo() {
         return { error: 'Failed to get system info', details: err.message };
     }
 }
+getSystemInfo();
 
 app.get('/status', async (req, res) => {
     const data = await getSystemInfo();
